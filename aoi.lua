@@ -1,4 +1,3 @@
-local print_r = require "print_r"
 local aoi_mt = {}
 aoi_mt.__index = aoi_mt
 
