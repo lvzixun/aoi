@@ -149,7 +149,7 @@ local function test1()
 end
 
 
-test2()
--- test1()
+-- test2()
+test1()
 -- m1_test()
 
