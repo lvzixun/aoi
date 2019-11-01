@@ -105,7 +105,7 @@ local function update_aoi(check)
     end
 end
 
-
+-- cost 1.243078s
 local function m1_test()
     local m1_aoi = require "lgamescene.aoi"
     local world = m1_aoi.create_world(20, 20, 10)
@@ -124,6 +124,7 @@ local function m1_test()
 end
 
 
+-- cost:0.028496s
 local function test2()
     local n = 10000
     aoi_obj = aoi.aoi_new(10, 20, 10, 20)
@@ -157,7 +158,7 @@ local function test1()
 end
 
 
--- test2()
-test1()
+test2()
+-- test1()
 -- m1_test()
 
