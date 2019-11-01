@@ -46,7 +46,7 @@ end
 
 
 local function set_watcher(watcher_id, maker_id, status, pos_x, pos_y)
-    -- print("set_watcher:", watcher_id, maker_id, status, pos_x, pos_y)
+    print("set_watcher:", watcher_id, maker_id, status, pos_x, pos_y)
     local w = watchers_map[watcher_id] or {}
     watchers_map[watcher_id] = w
     local v = w[maker_id]
@@ -94,13 +94,15 @@ local function check_aoi(ret)
 end
 
 
-local function update_aoi()
+local function update_aoi(check)
     local b = os.clock()
     local ret = aoi_obj:aoi_update(handle_func)
     local e = os.clock()
     print("update_aoi cost:", e - b)
     -- print_r(ret)
-    -- check_aoi(ret)
+    if check then
+        check_aoi(ret)
+    end
 end
 
 
@@ -113,9 +115,9 @@ local function m1_test()
     for i=1,n do
         p[1] = i
         local ret = m1_aoi.add_obj(world, i, p, 10, 10, true, true)
-        if i == n then
-            print_r(ret)
-        end
+        -- if i == n then
+        --     print_r(ret)
+        -- end
     end
     local e  = os.clock()
     print("m1_test cost:", e-b)
@@ -141,11 +143,17 @@ local function test1()
     local obj5 = add_obj(WATCHER_MARK | MAKER_MARK, 6, 7)
     set_obj(obj4, 9, 9)
     set_obj(obj2, 0, 0)
-    update_aoi()
+    update_aoi(true)
     print("-----------")
     set_obj(obj1, 9, 9)
     set_obj(obj5, 4, 5)
-    update_aoi()
+    local obj6 = add_obj(MAKER_MARK, 10, 9)
+    local obj7 = add_obj(MAKER_MARK, 10, 9)
+    local obj8 = add_obj(MAKER_MARK, 10, 9)
+    update_aoi(true)
+    del_obj(obj6)
+    set_obj(obj7, 0, 0)
+    update_aoi(true)
 end
 
 
