@@ -154,11 +154,13 @@ local function test1()
     update_aoi(true)
     del_obj(obj6)
     set_obj(obj7, 0, 0)
+    print_r(aoi_obj:aoi_get_objs_by_obj(obj7))
+    print("#######")
     update_aoi(true)
 end
 
 
-test2()
--- test1()
+-- test2()
+test1()
 -- m1_test()
 

@@ -287,6 +287,32 @@ local function aoi_get_9_gridobj_by_center_gridobj(self, grid_obj, ret_tbl)
 end
 
 
+local function grid_get_current_objs(self)
+    local ret = {}
+    local touchs = self.touchs
+    local objs = self.objs
+    if touchs then
+        for obj_id,v in pairs(touchs) do
+            local status = v ~= "D" and v.status or "D"
+            if status == "A" or status == "U" then
+                ret[obj_id] = {
+                    id = obj_id,
+                    pos_x = v.pos_x,
+                    pos_y = v.pos_y,
+                }
+            end
+        end
+    end
+    for obj_id,v in pairs(objs) do
+        local tv = touchs[obj_id]
+        if not tv then
+            ret[obj_id] = v
+        end
+    end
+    return ret
+end
+
+
 local function grid_get_merge_objs(self)
     if not self.merge then
         local touchs = self.touchs
@@ -294,23 +320,7 @@ local function grid_get_merge_objs(self)
         if not touchs or not next(touchs) then
             self.merge = objs
         else
-            local merge = {}
-            for obj_id,v in pairs(touchs) do
-                local status = v ~= "D" and v.status or "D"
-                if status == "A" or status == "U" then
-                    merge[obj_id] = {
-                        id = obj_id,
-                        pos_x = v.pos_x,
-                        pos_y = v.pos_y,
-                    }
-                end
-            end
-            for obj_id,v in pairs(objs) do
-                local tv = touchs[obj_id]
-                if not tv then
-                    merge[obj_id] = v
-                end
-            end
+            local merge = grid_get_current_objs(self)
             self.merge = merge
         end
     end
@@ -590,6 +600,26 @@ function aoi_mt:aoi_update()
     aoi_clear_all_touch_result(self)
     return result_tbl
 end
+
+
+function aoi_mt:aoi_get_objs_by_obj(obj_id)
+    local ret_tbl = {}
+    local grid_idx = self.objid_to_grididx[obj_id]
+    local grid_obj = grid_idx and get_gridobj_by_idx(self, grid_idx)
+    if grid_obj then
+       local n = aoi_get_9_gridobj_by_center_gridobj(self, grid_obj, TMP)
+       for i=1,n do
+           local v = TMP[i]
+           TMP[i] = nil
+           local ret = grid_get_current_objs(v)
+           for k,obj in pairs(ret) do
+                ret_tbl[k] = obj
+           end
+       end
+    end
+    return ret_tbl
+end
+
 
 
 return {
