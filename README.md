@@ -39,6 +39,16 @@ ret = {
     },
     ...
 }
+
+-- get maker objects of 9 grids by obj_id.
+local ret = aoi_obj:aoi_get_objs_by_obj(obj_id)
+
+-- ret table detail:
+ret = {
+    [maker_id1] = { id=1, pos_x = 11, pos_y = 22},
+    [maker_id2] = { id=2, pos_x = 11, pos_y = 22},
+    ...
+}
 ~~~
 
 ### benchmark
