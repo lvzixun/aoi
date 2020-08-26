@@ -318,7 +318,7 @@ local function grid_get_merge_objs(self)
         local touchs = self.touchs
         local objs = self.objs
         if not touchs or not next(touchs) then
-            self.merge = objs
+            return objs
         else
             local merge = grid_get_current_objs(self)
             self.merge = merge
