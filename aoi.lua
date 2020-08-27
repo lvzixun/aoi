@@ -67,7 +67,10 @@ function grid_mt:grid_add(id, marked, pos_x, pos_y)
     if is_maker then
         local touchs = self.touchs
         if self.objs[id] then
-            error(string.format("duplicate grid_add maker id:%s to objs", id))
+            local status = touchs and touchs[id]
+            if status ~= "D" then
+                error(string.format("duplicate grid_add maker id:%s to objs", id))
+            end
         elseif touchs and touchs[id] then
             error(string.format("duplicate grid_add maker id:%s to touchs", id))
         end
