@@ -275,9 +275,14 @@ local function aoi_get_9_gridobj_by_center_gridobj(self, grid_obj, ret_tbl)
     local n = 0
     local cur_grididx = grid_obj.grid_idx
     local max_col_count = self.max_col_count
+    local max_row_count = self.max_row_count
+    local idx = cur_grididx - 1
+    local col, row = idx % max_col_count, idx // max_col_count
+    local min_col, max_col = col-1<0 and 0 or -1, col+1>=max_col_count and 0 or 1
+    local min_row, max_row = row-1<0 and 0 or -1, row+1>=max_row_count and 0 or 1
     local grid_pool = self.grid_pool
-    for i=-1,1 do
-        for j=-1,1 do
+    for i=min_row,max_row do
+        for j=min_col,max_col do
             local k = i*max_col_count + cur_grididx + j
             local v = grid_pool[k]
             if v then
